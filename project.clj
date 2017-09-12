@@ -1,4 +1,4 @@
-(defproject xander "0.1.2-SNAPSHOT"
+(defproject xander "0.1.2"
   :description "Xander is a Clojure library to handle and process XML in a more idiomatic and elegant manner."
   :url "http://github.com/sierralogic/xander"
   :license {:name "Eclipse Public License"
