@@ -73,7 +73,7 @@ Continuing from the example code above:
                 :spice #(if (= % "pumpkin") "Beware! The Great Pumpkin!" %)
                 :ans #(Integer/parseInt %)})
 
-(xml->normalized-map fruit-xml-str tfm-fruit true)
+(xml->map fruit-xml-str tfm-fruit true)
 ;;=>
 {:ans 42,
  :bar "baz",
@@ -82,7 +82,7 @@ Continuing from the example code above:
  :poseur true,
  :spice "Beware! The Great Pumpkin!"}
  
-(xml->normalized-map fruit-xml-str tfm-fruit false)
+(xml->map fruit-xml-str tfm-fruit false)
 ;;=>
 {:foo {:bar "baz",
        :fruit {:apple {:type [{:color :red, :id :fuji, :label "FUJI", :taste "sweet"}
@@ -170,7 +170,7 @@ the outer tag on conversion.
  </foo>
  "
  
-(xml->normalized-map rt-xml-str)
+(xml->map rt-xml-str)
 ;;=>
 {:foo {:ans "42",
        :bar "baz",
