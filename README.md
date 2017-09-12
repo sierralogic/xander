@@ -11,6 +11,10 @@ In `project.clj` and the `:dependencies` vector:
 [xander.core "0.1.2"]
 ```
 
+## Build Status
+
+<img src="https://circleci.com/gh/sierralogic/xander.png?style=shield&circle-token=208a5b34334d277791f8e046d563216d320e7343"/>
+
 ## Examples
 
 ### Convert XML string to simple, idiomatic, aggregated, normalized map
