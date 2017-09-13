@@ -52,7 +52,7 @@ In `project.clj` and the `:dependencies` vector:
     </foo>")
     
 ;; nil transform function map and don't suppress outer tag 'foo'    
-(xml->normalized-map fruit-xml-str nil false)
+(xml->map fruit-xml-str nil false)
 ;;=>
 {:foo {:bar "baz",
        :fruit {:apple {:type [{:color "red", :id "fuji", :label "Fuji", :taste "sweet"}
@@ -64,7 +64,7 @@ In `project.clj` and the `:dependencies` vector:
 ;; suppress outer tag 'foo'
 ;; note that even though the outer tag 'foo' is suppressed, it's attributes ('pumpkin') are 
 ;; included on the first level of the resulting map
-(xml->normalized-map fruit-xml-str nil true)
+(xml->map fruit-xml-str nil true)
 ;;=>
 {:ans "42",
  :bar "baz",
@@ -130,7 +130,7 @@ the outer tag on conversion.
 (def fruit->xml {:foo {xander/attrs-key [:spice]
                        :fruit {:apple {:type {xander/attrs-key [:id :label]}}}}})
 
-(def nfx (xml->normalized-map fruit-xml-str nil true))
+(def nfx (xml->map fruit-xml-str nil true))
 ;;=>
 {:ans "42",
  :bar "baz",
@@ -194,7 +194,7 @@ the outer tag on conversion.
        :poseur "true",
        :spice "pumpkin"}}
  
-(def fruit-map (xml->normalized-map rt-xml-str tfm-fruit true))
+(def fruit-map (xml->map rt-xml-str tfm-fruit true))
 ;;=>
 {:ans 42,
  :bar "baz",
@@ -207,7 +207,7 @@ the outer tag on conversion.
 ### Simple map to xml
 
 ```clojure
-(def fruit-map (xml->normalized-map rt-xml-str tfm-fruit))
+(def fruit-map (xml->map rt-xml-str tfm-fruit))
 ;;=>
 {:foo {:ans 42,
        :bar "baz",
