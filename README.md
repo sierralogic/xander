@@ -3,6 +3,17 @@
 Xander is a Clojure library that provides convenience functions for handling XML as a more idiomatic 
 map, conversion and translation options, and generally a more idiomatic manner in which to process XML.
 
+## Rationale
+
+Xander provides the ability to convert XML documents into elegant, idiomatic Clojure maps that
+allows for more idiomatic processing of incoming messages.
+
+The core Clojure parsing of XML provides fidelity of XML documents, but at the 
+expense of readability and elegance.  
+
+There are times that the incoming XML documents don't need to maintain the fidelity of
+attributes and child tag contents and that is where xander may be of use.
+  
 ## Usage
 
 In `project.clj` and the `:dependencies` vector:

@@ -79,16 +79,6 @@
               nil
               c))))
 
-(defn map->cxml2
-  "Converts a standard Clojure map cm to an XML string representation given the top-level tag and attribute map am."
-  [tag cm & [am ts]]
-  (let [nts (conj (or ts []) tag)]
-    {:tag tag
-     :attrs nil
-     :content (vec (flatten (reduce-kv (fn [a k v] (concat (or a []) (->tag-content k v am nts)))
-                                       nil
-                                       cm)))}))
-
 (def default-outer-tag :document)
 (def outer-tag (atom default-outer-tag))
 
