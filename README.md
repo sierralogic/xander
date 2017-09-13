@@ -55,8 +55,8 @@ Xander API documentation may be found [here](https://sierralogic.github.io/xande
       <poseur>true</poseur>
     </foo>")
     
-;; nil transform function map and don't suppress outer tag 'foo'    
-(xml->map fruit-xml-str nil false)
+;; default optional parameters transform function map (nil) and supporess outer tag (falsse) so don't suppress outer tag 'foo'    
+(xml->map fruit-xml-str)
 ;;=>
 {:foo {:bar "baz",
        :fruit {:apple {:type [{:color "red", :id "fuji", :label "Fuji", :taste "sweet"}
@@ -67,7 +67,8 @@ Xander API documentation may be found [here](https://sierralogic.github.io/xande
 
 ;; suppress outer tag 'foo'
 ;; note that even though the outer tag 'foo' is suppressed, it's attributes ('pumpkin') are 
-;; included on the first level of the resulting map
+;; included on the first level of the resulting map.  all attributes of the outer tag if suppressed
+;; will appear in the first tier of the resulting map.
 (xml->map fruit-xml-str nil true)
 ;;=>
 {:ans "42",
@@ -84,7 +85,7 @@ Continuing from the example code above:
 
 ```clojure
 ;; note: for production (or anything significant) you should have more resilient functions
-;; that handle exceptions since the conversion will throw an exception and stop the conversion
+;; that handle exceptions since the conversion will throw an exception and abort the conversion
 (def tfm-fruit {:id keyword
                 :color keyword
                 :poseur #(or (= % "true") (= % "t") (= % "yes") (= % "y") (= % "si"))
@@ -102,6 +103,7 @@ Continuing from the example code above:
  :spice "Beware! The Great Pumpkin!"}
  
 (xml->map fruit-xml-str tfm-fruit false)
+;; equivalent to: (xml->map fruit-xml-str tfm-fruit)
 ;;=>
 {:foo {:bar "baz",
        :fruit {:apple {:type [{:color :red, :id :fuji, :label "FUJI", :taste "sweet"}
@@ -154,7 +156,7 @@ the outer tag on conversion.
 (def fruit->xml {:foo {xander/attrs-key [:spice]
                        :fruit {:apple {:type {xander/attrs-key [:id :label]}}}}})
 
-;; roundtripping works with the output being the same XML string input (minus some whitespace differences)
+;; roundtripping works with the output being the same shaped XML string input (minus some minor whitespace differences)
 (map->xml (xml->map fruit-xml-str) fruit->xml)
 ;;=>
 "<?xml version='1.0' encoding='UTF-8'?><foo spice=\"pumpkin\">
@@ -269,7 +271,7 @@ value.
 {:foo {:ans 42, :lucky [7 11]}}
 ```
 
-This works.  But what if you have multiple fields (like `:lucky`)that you want to convert to integer?
+This works.  But what if you have multiple fields (like the additional `:lucky` field) that you want to convert to integer?
 Do you have to put an entry for each field name with the integer conversion function as
 the value?
 
