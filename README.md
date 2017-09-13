@@ -26,6 +26,10 @@ In `project.clj` and the `:dependencies` vector:
 
 <img src="https://circleci.com/gh/sierralogic/xander.png?style=shield&circle-token=208a5b34334d277791f8e046d563216d320e7343"/>
 
+## API Documentation
+
+Xander API documentation may be found [here](https://sierralogic.github.io/xander/doc/xander.core.html).
+
 ## Examples
 
 ### Convert XML string to simple, idiomatic, aggregated, normalized map
@@ -74,7 +78,7 @@ In `project.clj` and the `:dependencies` vector:
  :spice "pumpkin"}
 ```
 
-### Transform fields on conversion using tranform field maps
+### Transform fields on conversion using transform field maps
 
 Continuing from the example code above:
 
@@ -127,81 +131,49 @@ when doing the `(xml->map xml-str transform-field-map true)` where the `true` fl
 the outer tag on conversion.  
 
 ```clojure
+(def fruit-xml-str
+  "<?xml version='1.0' encoding='UTF-8'?>
+    <foo spice=\"pumpkin\">
+      <bar>baz</bar>
+      <fruit>
+        <apple>
+          <type id='fuji' label='Fuji'>
+            <color>red</color>
+            <taste>sweet</taste>
+          </type>
+          <type id='granny' label='Granny Smith'>
+            <color>green</color>
+            <taste>sour</taste>
+          </type>
+        </apple>
+      </fruit>
+      <ans>42</ans>
+      <poseur>true</poseur>
+    </foo>")
+
 (def fruit->xml {:foo {xander/attrs-key [:spice]
                        :fruit {:apple {:type {xander/attrs-key [:id :label]}}}}})
 
-(def nfx (xml->map fruit-xml-str nil true))
+;; roundtripping works with the output being the same XML string input (minus some whitespace differences)
+(map->xml (xml->map fruit-xml-str) fruit->xml)
 ;;=>
-{:ans "42",
- :bar "baz",
- :fruit {:apple {:type [{:color "red", :id "fuji", :label "Fuji", :taste "sweet"}
-                        {:color "green", :id "granny", :label "Granny Smith", :taste "sour"}]}},
- :poseur "true",
- :spice "pumpkin"}
-
-(def cnfx (map->cxml nfx nil :foo))
-;;=>
-{:tag :foo,
- :attrs nil,
- :content [{:tag :ans, :attrs nil, :content ["42"]}
-           {:tag :bar, :attrs nil, :content ["baz"]}
-           {:tag :fruit,
-            :attrs nil,
-            :content [{:tag :apple,
-                       :attrs nil,
-                       :content [{:tag :type,
-                                  :attrs nil,
-                                  :content [{:tag :color, :attrs nil, :content ["red"]}
-                                            {:tag :id, :attrs nil, :content ["fuji"]}
-                                            {:tag :label, :attrs nil, :content ["Fuji"]}
-                                            {:tag :taste, :attrs nil, :content ["sweet"]}]}
-                                 {:tag :type,
-                                  :attrs nil,
-                                  :content [{:tag :color, :attrs nil, :content ["green"]}
-                                            {:tag :id, :attrs nil, :content ["granny"]}
-                                            {:tag :label, :attrs nil, :content ["Granny Smith"]}
-                                            {:tag :taste, :attrs nil, :content ["sour"]}]}]}]}
-           {:tag :poseur, :attrs nil, :content ["true"]}
-           {:tag :spice, :attrs nil, :content ["pumpkin"]}]}
-           
-(def rt-xml-str (->xml-str (cxml->attrs-cxml cnfx fruit->xml)))
-;;=>
-"<?xml version=\"1.0\" encoding=\"UTF-8\"?><foo spice=\"pumpkin\">
-   <ans>42</ans>
-   <bar>baz</bar>
-   <fruit>
-     <apple>
-       <type id=\"fuji\" label=\"Fuji\">
-         <color>red</color>
-         <taste>sweet</taste>
-       </type>
-       <type id=\"granny\" label=\"Granny Smith\">
-         <color>green</color>
-         <taste>sour</taste>
-       </type>
-     </apple>
-   </fruit>
-   <poseur>true</poseur>
- </foo>
- "
- 
-(xml->map rt-xml-str)
-;;=>
-{:foo {:ans "42",
-       :bar "baz",
-       :fruit {:apple {:type [{:color "red", :id "fuji", :label "Fuji", :taste "sweet"}
-                              {:color "green", :id "granny", :label "Granny Smith", :taste "sour"}]}},
-       :poseur "true",
-       :spice "pumpkin"}}
- 
-(def fruit-map (xml->map rt-xml-str tfm-fruit true))
-;;=>
-{:ans 42,
- :bar "baz",
- :fruit {:apple {:type [{:color :red, :id :fuji, :label "FUJI", :taste "sweet"}
-                        {:color :green, :id :granny, :label "GRANNY SMITH", :taste "sour"}]}},
- :poseur true,
- :spice "Beware! The Great Pumpkin!"}
+"<?xml version='1.0' encoding='UTF-8'?><foo spice=\"pumpkin\">
+  <bar>baz</bar>
+  <fruit>
+    <apple>
+      <type id='fuji' label='Fuji'>
+        <color>red</color>
+        <taste>sweet</taste>
+      </type>
+      <type id='granny' label='Granny Smith'>
+        <color>green</color>
+        <taste>sour</taste>
+      </type>
+    </apple>
+  </fruit>
+  <ans>42</ans>
+  <poseur>true</poseur>
+</foo>"
 ```
 
 ### Simple map to xml
