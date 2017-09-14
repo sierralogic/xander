@@ -268,7 +268,7 @@ value.
 
 (xml->map lucky-xml-str tfm)
 ;;=>
-{:foo {:ans 42, :lucky [7 11]}}
+{:foo {:ans 42, :lucky ["7" "11"]}}
 ```
 
 This works.  But what if you have multiple fields (like the additional `:lucky` field) that you want to convert to integer?
@@ -312,8 +312,8 @@ don't have to use it and may use direct transform function map declarations.
 
 * Handle attribute/child tag collisions better (now attribute wins destructively).
 * Provide mechanism for namespacing field names on conversion to map.
-* Determine and fix any performance issues (on-going)
-* Create more unit tests, including generative testing (on-going).
+* Determine and fix any stability and/or performance issues. (on-going)
+* Create more unit tests, including generative testing. (on-going)
 
 ## License
 
