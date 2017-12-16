@@ -311,7 +311,7 @@ don't have to use it and may use direct transform function map declarations.
 ## Future Enhancements
 
 * Handle attribute/child tag collisions better (now attribute wins destructively).
-* Provide mechanism for namespacing field names on conversion to map.
+* Provide mechanism for namespacing field names and other manipulations on conversion to map.
 * Determine and fix any stability and/or performance issues. (on-going)
 * Create more unit tests, including generative testing. (on-going)
 
