@@ -19,7 +19,7 @@ attributes and child tag contents and that is where xander may be of use.
 In `project.clj` and the `:dependencies` vector:
 
 ```clojure
-[xander.core "0.1.2"]
+[xander "0.1.2"]
 ```
 
 ## Build Status
